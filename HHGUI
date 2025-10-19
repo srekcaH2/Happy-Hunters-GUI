@@ -23,16 +23,6 @@ t.TextColor3 = Color3.new(1,1,1)
 t.Font = Enum.Font.SourceSansBold
 t.TextScaled = true
 
-local minimize = Instance.new("TextButton", f)
-minimize.Size = UDim2.new(0, 24, 0, 24)
-minimize.Position = UDim2.new(1, -28, 0, 8)
-minimize.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-minimize.Text = "-"
-minimize.TextColor3 = Color3.new(1,1,1)
-minimize.Font = Enum.Font.SourceSansBold
-minimize.TextSize = 20
-Instance.new("UICorner", minimize).CornerRadius = UDim.new(0, 6)
-
 local content = Instance.new("Frame", f)
 content.Size = UDim2.new(1, 0, 1, -40)
 content.Position = UDim2.new(0, 0, 0, 36)
@@ -113,13 +103,6 @@ if p.Character then onChar(p.Character) end
 p.CharacterAdded:Connect(onChar)
 apply.MouseButton1Click:Connect(applyVals)
 reset.MouseButton1Click:Connect(resetVals)
-
-local minimized = false
-minimize.MouseButton1Click:Connect(function()
-	minimized = not minimized
-	content.Visible = not minimized
-	minimize.Text = minimized and "+" or "-"
-end)
 
 local UIS = game:GetService("UserInputService")
 UIS.InputBegan:Connect(function(i, g)
