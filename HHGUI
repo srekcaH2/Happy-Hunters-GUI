@@ -1,90 +1,105 @@
-local p=game:GetService("Players").LocalPlayer
-local pg=p:WaitForChild("PlayerGui")
-local s=Instance.new("ScreenGui",pg)
-screenGui.ResetOnSpawn = false
-s.Name="SpeedGui"
-local f=Instance.new("Frame",s)
-f.Size=UDim2.new(0,260,0,150)
-f.Position=UDim2.new(0,20,0,60)
-f.BackgroundColor3=Color3.fromRGB(30,30,30)
-Instance.new("UICorner",f).CornerRadius=UDim.new(0,8)
-local t=Instance.new("TextLabel",f)
-t.Size=UDim2.new(1,-16,0,28)
-t.Position=UDim2.new(0,8,0,8)
-t.BackgroundTransparency=1
-t.Text="WalkSpeed & JumpPower"
-t.TextColor3=Color3.new(1,1,1)
-t.Font=Enum.Font.SourceSansBold
-t.TextScaled=true
-local function makeLbl(pn,txt,y)
- local l=Instance.new("TextLabel",f)
- l.Size=UDim2.new(0,120,0,22)
- l.Position=UDim2.new(0,8,0,y)
- l.BackgroundTransparency=1
- l.Text=txt
- l.TextColor3=Color3.new(1,1,1)
- l.TextXAlignment=Enum.TextXAlignment.Left
- l.Font=Enum.Font.SourceSans
- l.TextSize=16
- return l
+local p = game:GetService("Players").LocalPlayer
+local pg = p:WaitForChild("PlayerGui")
+
+local s = Instance.new("ScreenGui")
+s.Name = "SpeedGui"
+s.ResetOnSpawn = false
+s.Parent = pg
+
+local f = Instance.new("Frame", s)
+f.Size = UDim2.new(0, 260, 0, 150)
+f.Position = UDim2.new(0, 20, 0, 60)
+f.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Instance.new("UICorner", f).CornerRadius = UDim.new(0, 8)
+
+local t = Instance.new("TextLabel", f)
+t.Size = UDim2.new(1, -16, 0, 28)
+t.Position = UDim2.new(0, 8, 0, 8)
+t.BackgroundTransparency = 1
+t.Text = "WalkSpeed & JumpPower"
+t.TextColor3 = Color3.new(1,1,1)
+t.Font = Enum.Font.SourceSansBold
+t.TextScaled = true
+
+local function makeLbl(txt, y)
+	local l = Instance.new("TextLabel", f)
+	l.Size = UDim2.new(0, 120, 0, 22)
+	l.Position = UDim2.new(0, 8, 0, y)
+	l.BackgroundTransparency = 1
+	l.Text = txt
+	l.TextColor3 = Color3.new(1,1,1)
+	l.TextXAlignment = Enum.TextXAlignment.Left
+	l.Font = Enum.Font.SourceSans
+	l.TextSize = 16
+	return l
 end
-local function makeBox(pn,y)
- local b=Instance.new("TextBox",f)
- b.Size=UDim2.new(0,120,0,22)
- b.Position=UDim2.new(0,132,0,y)
- b.PlaceholderText="Valeur"
- b.Font=Enum.Font.SourceSans
- b.TextSize=16
- b.TextColor3=Color3.new(0,0,0)
- b.BackgroundColor3=Color3.fromRGB(255,255,255)
- return b
+
+local function makeBox(y)
+	local b = Instance.new("TextBox", f)
+	b.Size = UDim2.new(0, 120, 0, 22)
+	b.Position = UDim2.new(0, 132, 0, y)
+	b.PlaceholderText = "Valeur"
+	b.Font = Enum.Font.SourceSans
+	b.TextSize = 16
+	b.TextColor3 = Color3.new(0,0,0)
+	b.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	return b
 end
-makeLbl(f,"WalkSpeed (8-200):",44)
-local ws=makeBox(f,44)
-makeLbl(f,"JumpPower (20-200):",72)
-local jp=makeBox(f,72)
-local apply=Instance.new("TextButton",f)
-apply.Size=UDim2.new(0,120,0,28)
-apply.Position=UDim2.new(0,8,0,106)
-apply.Text="Appliquer"
-apply.Font=Enum.Font.SourceSansBold
-apply.TextSize=18
-local reset=Instance.new("TextButton",f)
-reset.Size=UDim2.new(0,120,0,28)
-reset.Position=UDim2.new(0,132,0,106)
-reset.Text="Reset"
-reset.Font=Enum.Font.SourceSansBold
-reset.TextSize=18
+
+makeLbl("WalkSpeed (8-200):", 44)
+local ws = makeBox(44)
+makeLbl("JumpPower (20-200):", 72)
+local jp = makeBox(72)
+
+local apply = Instance.new("TextButton", f)
+apply.Size = UDim2.new(0, 120, 0, 28)
+apply.Position = UDim2.new(0, 8, 0, 106)
+apply.Text = "Appliquer"
+apply.Font = Enum.Font.SourceSansBold
+apply.TextSize = 18
+
+local reset = Instance.new("TextButton", f)
+reset.Size = UDim2.new(0, 120, 0, 28)
+reset.Position = UDim2.new(0, 132, 0, 106)
+reset.Text = "Reset"
+reset.Font = Enum.Font.SourceSansBold
+reset.TextSize = 18
+
 local hum
 local function upd()
- if not hum then return end
- ws.PlaceholderText=tostring(hum.WalkSpeed)
- jp.PlaceholderText=tostring(hum.JumpPower)
+	if not hum then return end
+	ws.PlaceholderText = tostring(hum.WalkSpeed)
+	jp.PlaceholderText = tostring(hum.JumpPower)
 end
-local ow,oj
+
+local ow, oj
 local function applyVals()
- if not hum then return end
- local w=tonumber(ws.Text)
- local j=tonumber(jp.Text)
- if w then hum.WalkSpeed=math.clamp(w,8,200) end
- if j then hum.JumpPower=math.clamp(j,20,200) end
- upd()
+	if not hum then return end
+	local w = tonumber(ws.Text)
+	local j = tonumber(jp.Text)
+	if w then hum.WalkSpeed = math.clamp(w, 8, 200) end
+	if j then hum.JumpPower = math.clamp(j, 20, 200) end
+	upd()
 end
+
 local function resetVals()
- if hum then hum.WalkSpeed=ow hum.JumpPower=oj upd() end
+	if hum then hum.WalkSpeed = ow hum.JumpPower = oj upd() end
 end
+
 local function onChar(c)
- hum=c:WaitForChild("Humanoid",5)
- if hum then ow,oj=hum.WalkSpeed,hum.JumpPower upd() end
+	hum = c:WaitForChild("Humanoid", 5)
+	if hum then ow, oj = hum.WalkSpeed, hum.JumpPower upd() end
 end
+
 if p.Character then onChar(p.Character) end
 p.CharacterAdded:Connect(onChar)
 apply.MouseButton1Click:Connect(applyVals)
 reset.MouseButton1Click:Connect(resetVals)
-local UIS=game:GetService("UserInputService")
-UIS.InputBegan:Connect(function(i,g)
- if g then return end
- if i.KeyCode==Enum.KeyCode.G and (UIS:IsKeyDown(Enum.KeyCode.LeftControl) or UIS:IsKeyDown(Enum.KeyCode.RightControl)) then
-  f.Visible=not f.Visible
- end
+
+local UIS = game:GetService("UserInputService")
+UIS.InputBegan:Connect(function(i, g)
+	if g then return end
+	if i.KeyCode == Enum.KeyCode.G and (UIS:IsKeyDown(Enum.KeyCode.LeftControl) or UIS:IsKeyDown(Enum.KeyCode.RightControl)) then
+		f.Visible = not f.Visible
+	end
 end)
