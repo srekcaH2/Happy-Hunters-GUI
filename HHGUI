@@ -52,30 +52,28 @@ local function makeLbl(parent, txt, y)
 end
 
 local function makeBox(parent, y)
-	local b = Instance.new("Value", parent)
+	local b = Instance.new("TextBox", parent)
 	b.Size = UDim2.new(0, 120, 0, 22)
 	b.Position = UDim2.new(0, 132, 0, y)
-	b.PlaceholderText = "Value"
+	b.PlaceholderText = "Valeur"
 	b.Font = Enum.Font.SourceSans
 	b.TextSize = 16
 	b.TextColor3 = Color3.new(0,0,0)
 	b.BackgroundColor3 = Color3.fromRGB(255,255,255)
-	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 8)
 	return b
 end
 
-makeLbl(content, "WalkSpeed:", 8)
+makeLbl(content, "WalkSpeed (1-1000):", 8)
 local ws = makeBox(content, 8)
-makeLbl(content, "JumpPower:", 36)
+makeLbl(content, "JumpPower (1-1000):", 36)
 local jp = makeBox(content, 36)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 120, 0, 28)
 apply.Position = UDim2.new(0, 8, 0, 72)
-apply.Text = "Apply"
+apply.Text = "Appliquer"
 apply.Font = Enum.Font.SourceSansBold
 apply.TextSize = 18
-Instance.new("UICorner", apply).CornerRadius = UDim.new(0, 8)
 
 local reset = Instance.new("TextButton", content)
 reset.Size = UDim2.new(0, 120, 0, 28)
@@ -83,7 +81,6 @@ reset.Position = UDim2.new(0, 132, 0, 72)
 reset.Text = "Reset"
 reset.Font = Enum.Font.SourceSansBold
 reset.TextSize = 18
-Instance.new("UICorner", reset).CornerRadius = UDim.new(0, 8)
 
 local hum
 local ow, oj
