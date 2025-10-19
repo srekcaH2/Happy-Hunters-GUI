@@ -52,10 +52,10 @@ local function makeLbl(parent, txt, y)
 end
 
 local function makeBox(parent, y)
-	local b = Instance.new("TextBox", parent)
+	local b = Instance.new("Value", parent)
 	b.Size = UDim2.new(0, 120, 0, 22)
 	b.Position = UDim2.new(0, 132, 0, y)
-	b.PlaceholderText = "Valeur"
+	b.PlaceholderText = "Value"
 	b.Font = Enum.Font.SourceSans
 	b.TextSize = 16
 	b.TextColor3 = Color3.new(0,0,0)
@@ -63,15 +63,15 @@ local function makeBox(parent, y)
 	return b
 end
 
-makeLbl(content, "WalkSpeed (1-1000):", 8)
+makeLbl(content, "WalkSpeed:", 8)
 local ws = makeBox(content, 8)
-makeLbl(content, "JumpPower (1-1000):", 36)
+makeLbl(content, "JumpPower:", 36)
 local jp = makeBox(content, 36)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 120, 0, 28)
 apply.Position = UDim2.new(0, 8, 0, 72)
-apply.Text = "Appliquer"
+apply.Text = "Apply"
 apply.Font = Enum.Font.SourceSansBold
 apply.TextSize = 18
 
@@ -95,8 +95,8 @@ local function applyVals()
 	if not hum then return end
 	local w = tonumber(ws.Text)
 	local j = tonumber(jp.Text)
-	if w then hum.WalkSpeed = math.clamp(w, 1, 1000) end
-	if j then hum.JumpPower = math.clamp(j, 1, 1000) end
+	if w then hum.WalkSpeed = math.clamp(w, 1, 10000) end
+	if j then hum.JumpPower = math.clamp(j, 1, 10000) end
 	upd()
 end
 
