@@ -1,6 +1,7 @@
 local p=game:GetService("Players").LocalPlayer
 local pg=p:WaitForChild("PlayerGui")
 local s=Instance.new("ScreenGui",pg)
+screenGui.ResetOnSpawn = false
 s.Name="SpeedGui"
 local f=Instance.new("Frame",s)
 f.Size=UDim2.new(0,260,0,150)
