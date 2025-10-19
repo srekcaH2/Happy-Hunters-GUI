@@ -76,6 +76,9 @@ apply.TextSize = 18
 apply.BackgroundColor3 = Color3.fromRGB(0,255,0)
 Instance.new("UICorner", apply).CornerRadius = UDim.new(0, 4)
 
+local sa = Instance.new("Sound", apply)
+sa.SoundId = "rbxassetid://1673280232"
+
 local reset = Instance.new("TextButton", content)
 reset.Size = UDim2.new(0, 120, 0, 28)
 reset.Position = UDim2.new(0, 132, 0, 72)
@@ -84,6 +87,9 @@ reset.Font = Enum.Font.SourceSansBold
 reset.TextSize = 18
 reset.BackgroundColor3 = Color3.fromRGB(255,0,0)
 Instance.new("UICorner", reset).CornerRadius = UDim.new(0, 4)
+
+local sr = Instance.new("Sound", reset)
+sr.SoundId = "rbxassetid://1673280232"
 
 local hum
 local ow, oj
@@ -114,8 +120,15 @@ end
 
 if p.Character then onChar(p.Character) end
 p.CharacterAdded:Connect(onChar)
-apply.MouseButton1Click:Connect(applyVals)
-reset.MouseButton1Click:Connect(resetVals)
+apply.MouseButton1Click:Connect(function()
+    sa:Play()
+    applyVals()
+end)
+
+reset.MouseButton1Click:Connect(function()
+    sr:Play()
+    resetVals()
+end)
 
 local UIS = game:GetService("UserInputService")
 UIS.InputBegan:Connect(function(i, g)
