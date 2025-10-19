@@ -2,7 +2,7 @@ local p = game:GetService("Players").LocalPlayer
 local pg = p:WaitForChild("PlayerGui")
 
 local s = Instance.new("ScreenGui")
-s.Name = "HHGui"
+s.Name = "HHGUI"
 s.ResetOnSpawn = false
 s.Parent = pg
 
