@@ -7,7 +7,7 @@ s.ResetOnSpawn = false
 s.Parent = pg
 
 local f = Instance.new("Frame", s)
-f.Size = UDim2.new(0, 260, 0, 150)
+f.Size = UDim2.new(0, 260, 0, 177)
 f.Position = UDim2.new(0, 20, 0, 60)
 f.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 f.Active = true
@@ -24,7 +24,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.19"
+t.Text = "HHGUI v1.20"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
@@ -66,10 +66,12 @@ makeLbl(content, "WalkSpeed:", 8)
 local ws = makeBox(content, 8)
 makeLbl(content, "JumpPower:", 36)
 local jp = makeBox(content, 36)
+makeLbl(content, "JumpHeight:", 64)
+local jh = makeBox(content, 64)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 120, 0, 28)
-apply.Position = UDim2.new(0, 8, 0, 72)
+apply.Position = UDim2.new(0, 8, 0, 100)
 apply.Text = "Apply"
 apply.Font = Enum.Font.SourceSansBold
 apply.TextSize = 18
@@ -81,7 +83,7 @@ sa.SoundId = "rbxassetid://1673280232"
 
 local reset = Instance.new("TextButton", content)
 reset.Size = UDim2.new(0, 120, 0, 28)
-reset.Position = UDim2.new(0, 132, 0, 72)
+reset.Position = UDim2.new(0, 132, 0, 100)
 reset.Text = "Reset"
 reset.Font = Enum.Font.SourceSansBold
 reset.TextSize = 18
@@ -98,24 +100,36 @@ local function upd()
 	if not hum then return end
 	ws.PlaceholderText = tostring(hum.WalkSpeed)
 	jp.PlaceholderText = tostring(hum.JumpPower)
+	jh.PlaceholderText = tostring(hum.JumpHeight)
 end
 
 local function applyVals()
 	if not hum then return end
 	local w = tonumber(ws.Text)
 	local j = tonumber(jp.Text)
+	local h = tonumber(jh.Text)
 	if w then hum.WalkSpeed = math.clamp(w, 1, 1000) end
 	if j then hum.JumpPower = math.clamp(j, 1, 1000) end
+	if h then hum.JumpHeight = math.clamp(h, 1, 1000) end
 	upd()
 end
 
-local function resetVals()
-	if hum then hum.WalkSpeed = ow hum.JumpPower = oj upd() end
-end
-
+local oh
 local function onChar(c)
 	hum = c:WaitForChild("Humanoid", 5)
-	if hum then ow, oj = hum.WalkSpeed, hum.JumpPower upd() end
+	if hum then 
+		ow, oj, oh = hum.WalkSpeed, hum.JumpPower, hum.JumpHeight
+		upd()
+	end
+end
+
+local function resetVals()
+	if hum then
+		hum.WalkSpeed = ow
+		hum.JumpPower = oj
+		hum.JumpHeight = oh
+		upd()
+	end
 end
 
 if p.Character then onChar(p.Character) end
