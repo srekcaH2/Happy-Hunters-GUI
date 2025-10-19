@@ -21,10 +21,10 @@ i.BackgroundTransparency = 1
 i.Image = "rbxassetid://121523454509020"
 
 local t = Instance.new("TextLabel", f)
-t.Size = UDim2.new(1, -150, 0, 28)
+t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI"
+t.Text = "HHGUI v1.19"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
