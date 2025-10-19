@@ -14,12 +14,19 @@ f.Active = true
 f.Draggable = true
 Instance.new("UICorner", f).CornerRadius = UDim.new(0, 8)
 
+local i = Instance.new("ImageLabel", f)
+i.Size = UDim2.new(1, -230, 0, 28)
+i.Position = UDim2.new(0, 222, 0, 8)
+i.BackgroundTransparency = 1
+i.Image = 15011943566
+
 local t = Instance.new("TextLabel", f)
-t.Size = UDim2.new(1, -36, 0, 28)
+t.Size = UDim2.new(1, -150, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
 t.Text = "HHGUI"
 t.TextColor3 = Color3.new(1,1,1)
+t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
 t.TextScaled = true
 
@@ -45,11 +52,13 @@ local function makeBox(parent, y)
 	local b = Instance.new("TextBox", parent)
 	b.Size = UDim2.new(0, 120, 0, 22)
 	b.Position = UDim2.new(0, 132, 0, y)
-	b.PlaceholderText = "Valeur"
+	b.PlaceholderText = "Value"
 	b.Font = Enum.Font.SourceSans
 	b.TextSize = 16
+	b.Text = ""
 	b.TextColor3 = Color3.new(0,0,0)
 	b.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
 	return b
 end
 
@@ -64,6 +73,8 @@ apply.Position = UDim2.new(0, 8, 0, 72)
 apply.Text = "Apply"
 apply.Font = Enum.Font.SourceSansBold
 apply.TextSize = 18
+apply.BackgroundColor3 = Color3.fromRGB(0,255,0)
+Instance.new("UICorner", apply).CornerRadius = UDim.new(0, 4)
 
 local reset = Instance.new("TextButton", content)
 reset.Size = UDim2.new(0, 120, 0, 28)
@@ -71,6 +82,8 @@ reset.Position = UDim2.new(0, 132, 0, 72)
 reset.Text = "Reset"
 reset.Font = Enum.Font.SourceSansBold
 reset.TextSize = 18
+reset.BackgroundColor3 = Color3.fromRGB(255,0,0)
+Instance.new("UICorner", reset).CornerRadius = UDim.new(0, 4)
 
 local hum
 local ow, oj
