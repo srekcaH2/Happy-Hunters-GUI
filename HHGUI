@@ -10,19 +10,36 @@ local f = Instance.new("Frame", s)
 f.Size = UDim2.new(0, 260, 0, 150)
 f.Position = UDim2.new(0, 20, 0, 60)
 f.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+f.Active = true
+f.Draggable = true
 Instance.new("UICorner", f).CornerRadius = UDim.new(0, 8)
 
 local t = Instance.new("TextLabel", f)
-t.Size = UDim2.new(1, -16, 0, 28)
+t.Size = UDim2.new(1, -36, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "WalkSpeed & JumpPower"
+t.Text = "HHGui"
 t.TextColor3 = Color3.new(1,1,1)
 t.Font = Enum.Font.SourceSansBold
 t.TextScaled = true
 
-local function makeLbl(txt, y)
-	local l = Instance.new("TextLabel", f)
+local minimize = Instance.new("TextButton", f)
+minimize.Size = UDim2.new(0, 24, 0, 24)
+minimize.Position = UDim2.new(1, -28, 0, 8)
+minimize.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minimize.Text = "-"
+minimize.TextColor3 = Color3.new(1,1,1)
+minimize.Font = Enum.Font.SourceSansBold
+minimize.TextSize = 20
+Instance.new("UICorner", minimize).CornerRadius = UDim.new(0, 6)
+
+local content = Instance.new("Frame", f)
+content.Size = UDim2.new(1, 0, 1, -40)
+content.Position = UDim2.new(0, 0, 0, 36)
+content.BackgroundTransparency = 1
+
+local function makeLbl(parent, txt, y)
+	local l = Instance.new("TextLabel", parent)
 	l.Size = UDim2.new(0, 120, 0, 22)
 	l.Position = UDim2.new(0, 8, 0, y)
 	l.BackgroundTransparency = 1
@@ -34,8 +51,8 @@ local function makeLbl(txt, y)
 	return l
 end
 
-local function makeBox(y)
-	local b = Instance.new("TextBox", f)
+local function makeBox(parent, y)
+	local b = Instance.new("TextBox", parent)
 	b.Size = UDim2.new(0, 120, 0, 22)
 	b.Position = UDim2.new(0, 132, 0, y)
 	b.PlaceholderText = "Valeur"
@@ -46,39 +63,40 @@ local function makeBox(y)
 	return b
 end
 
-makeLbl("WalkSpeed (8-200):", 44)
-local ws = makeBox(44)
-makeLbl("JumpPower (20-200):", 72)
-local jp = makeBox(72)
+makeLbl(content, "WalkSpeed (1-1000):", 8)
+local ws = makeBox(content, 8)
+makeLbl(content, "JumpPower (1-1000):", 36)
+local jp = makeBox(content, 36)
 
-local apply = Instance.new("TextButton", f)
+local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 120, 0, 28)
-apply.Position = UDim2.new(0, 8, 0, 106)
+apply.Position = UDim2.new(0, 8, 0, 72)
 apply.Text = "Appliquer"
 apply.Font = Enum.Font.SourceSansBold
 apply.TextSize = 18
 
-local reset = Instance.new("TextButton", f)
+local reset = Instance.new("TextButton", content)
 reset.Size = UDim2.new(0, 120, 0, 28)
-reset.Position = UDim2.new(0, 132, 0, 106)
+reset.Position = UDim2.new(0, 132, 0, 72)
 reset.Text = "Reset"
 reset.Font = Enum.Font.SourceSansBold
 reset.TextSize = 18
 
 local hum
+local ow, oj
+
 local function upd()
 	if not hum then return end
 	ws.PlaceholderText = tostring(hum.WalkSpeed)
 	jp.PlaceholderText = tostring(hum.JumpPower)
 end
 
-local ow, oj
 local function applyVals()
 	if not hum then return end
 	local w = tonumber(ws.Text)
 	local j = tonumber(jp.Text)
-	if w then hum.WalkSpeed = math.clamp(w, 8, 200) end
-	if j then hum.JumpPower = math.clamp(j, 20, 200) end
+	if w then hum.WalkSpeed = math.clamp(w, 1, 1000) end
+	if j then hum.JumpPower = math.clamp(j, 1, 1000) end
 	upd()
 end
 
@@ -95,6 +113,13 @@ if p.Character then onChar(p.Character) end
 p.CharacterAdded:Connect(onChar)
 apply.MouseButton1Click:Connect(applyVals)
 reset.MouseButton1Click:Connect(resetVals)
+
+local minimized = false
+minimize.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	content.Visible = not minimized
+	minimize.Text = minimized and "+" or "-"
+end)
 
 local UIS = game:GetService("UserInputService")
 UIS.InputBegan:Connect(function(i, g)
