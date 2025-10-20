@@ -24,7 +24,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.22"
+t.Text = "HHGUI v1.23"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
@@ -91,7 +91,14 @@ makeLbl(sf, "MaxHealth:", 114)
 local mh = makeBox(sf, 114)
 makeLbl(sf, "HipHeight:", 142)
 local hh = makeBox(sf, 142)
-
+makeLbl(sf, "MaxSlopeAngle:", 170)
+local msa = makeBox(sf, 170)
+makeLbl(sf, "Gravity:", 198)
+local grav = makeBox(sf, 198)
+makeLbl(sf, "CameraMaxZoom:", 226)
+local camMax = makeBox(sf, 226)
+makeLbl(sf, "CameraMinZoom:", 254)
+local camMin = makeBox(sf, 254)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 118, 0, 28)
@@ -134,7 +141,7 @@ local sr = Instance.new("Sound", reset)
 sr.SoundId = "rbxassetid://1673280232"
 
 local hum
-local ow, oj, oh, ohp, omh
+local ow, oj, oh, ohp, omh, ohh, omsa, ograv, ocMax, ocMin
 
 local function formatNum(n)
     local rounded = math.floor(n * 10 + 0.5) / 10
@@ -147,12 +154,16 @@ end
 
 local function upd()
 	if not hum then return end
-	ws.PlaceholderText = tostring(hum.WalkSpeed)
-	jp.PlaceholderText = tostring(hum.JumpPower)
+	ws.PlaceholderText = formatNum(hum.WalkSpeed)
+	jp.PlaceholderText = formatNum(hum.JumpPower)
 	jh.PlaceholderText = formatNum(hum.JumpHeight)
-	hp.PlaceholderText = tostring(math.floor(hum.Health))
-	mh.PlaceholderText = tostring(math.floor(hum.MaxHealth))
+	hp.PlaceholderText = formatNum(math.floor(hum.Health))
+	mh.PlaceholderText = formatNum(math.floor(hum.MaxHealth))
 	hh.PlaceholderText = formatNum(hum.HipHeight)
+	msa.PlaceholderText = formatNum(hum.MaxSlopeAngle)
+	grav.PlaceholderText = formatNum(workspace.Gravity)
+	camMax.PlaceholderText = formatNum(p.CameraMaxZoomDistance)
+	camMin.PlaceholderText = formatNum(p.CameraMinZoomDistance)
 end
 
 local function applyVals()
@@ -163,19 +174,27 @@ local function applyVals()
 	local he = tonumber(hp.Text)
 	local mhe = tonumber(mh.Text)
 	local hip = tonumber(hh.Text)
+	local slope = tonumber(msa.Text)
+	local g = tonumber(grav.Text)
+	local cMax = tonumber(camMax.Text)
+	local cMin = tonumber(camMin.Text)
 	if w then hum.WalkSpeed = math.clamp(w, 0, 1000000) end
-	if j then hum.JumpPower = math.clamp(j, 0, 1000) end
+	if j then hum.JumpPower = math.clamp(j, 0, 1000000) end
 	if h then hum.JumpHeight = math.clamp(h, 0, 1000000) end
 	if mhe then hum.MaxHealth = math.clamp(mhe, 0, 1000000) end
 	if he then hum.Health = math.clamp(he, 0, hum.MaxHealth) end
-	if hip then hum.HipHeight = math.clamp(hip, 0, 2048) end
+	if hip then hum.HipHeight = math.clamp(hip, 0, 1000000) end
+	if slope then hum.MaxSlopeAngle = math.clamp(slope, 0, 1000000) end
+	if g then workspace.Gravity = math.clamp(g, 0, 1000000) end
+	if cMax then p.CameraMaxZoomDistance = math.clamp(cMax, 0, 1000000) end
+	if cMin then p.CameraMinZoomDistance = math.clamp(cMin, 0, 1000000) end
 	upd()
 end
 
 local function onChar(c)
 	hum = c:WaitForChild("Humanoid", 5)
 	if hum then 
-		ow, oj, oh, ohp, omh, ohh = hum.WalkSpeed, hum.JumpPower, hum.JumpHeight, hum.Health, hum.MaxHealth, hum.HipHeight
+		ow, oj, oh, ohp, omh, ohh, omsa, ograv, ocMax, ocMin = hum.WalkSpeed, hum.JumpPower, hum.JumpHeight, hum.Health, hum.MaxHealth, hum.HipHeight, hum.MaxSlopeAngle, workspace.Gravity, p.CameraMaxZoomDistance, p.CameraMinZoomDistance
 		upd()
 	end
 end
@@ -188,6 +207,10 @@ local function resetVals()
 		hum.MaxHealth = omh
 		hum.Health = ohp
 		hum.HipHeight = ohh
+		hum.MaxSlopeAngle = omsa
+		workspace.Gravity = ograv
+		p.CameraMaxZoomDistance = ocMax
+		p.CameraMinZoomDistance = ocMin
 		upd()
 	end
 end
