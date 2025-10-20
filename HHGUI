@@ -24,7 +24,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.24.1"
+t.Text = "HHGUI v1.24.2"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
@@ -52,6 +52,17 @@ madeby.Text = "made by srekcaH2"
 madeby.TextTransparency = 0.75
 madeby.TextSize = 9
 madeby.TextColor3 = Color3.fromRGB(255,255,255)
+madeby.TextXAlignment = Enum.TextXAlignment.Left
+
+local ctrlg = Instance.new("TextLabel", sf)
+ctrlg.Size = UDim2.new(0, 120, 0, 22)
+ctrlg.Position = UDim2.new(0, 8, 0, 420)
+ctrlg.BackgroundTransparency = 1
+ctrlg.Text = "ctrl+G to hide/unhide"
+ctrlg.TextTransparency = 0.75
+ctrlg.TextSize = 9
+ctrlg.TextColor3 = Color3.fromRGB(255,255,255)
+ctrlg.TextXAlignment = Enum.TextXAlignment.Left
 
 local function makeLbl(parent, txt, y)
 	local l = Instance.new("TextLabel", parent)
