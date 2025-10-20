@@ -9,10 +9,19 @@ s.Parent = pg
 local f = Instance.new("Frame", s)
 f.Size = UDim2.new(0, 260, 0, 234)
 f.Position = UDim2.new(0, 20, 0, 60)
-f.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+f.BackgroundTransparency = 0.05
+f.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 f.Active = true
 f.Draggable = true
 Instance.new("UICorner", f).CornerRadius = UDim.new(0, 8)
+
+local fg = Instance.new("UIGradient", f)
+fg.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(90, 90, 90)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
+}
+
+fg.Rotation = 270
 
 local imag = Instance.new("ImageLabel", f)
 imag.Size = UDim2.new(1, -180, 0, 80)
@@ -24,11 +33,16 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.24.3"
+t.Text = "HHGUI v1.24.4"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
-t.Font = Enum.Font.SourceSansBold
+t.Font = Enum.Font.Sarpanch
 t.TextScaled = true
+
+local tstroke = Instance.new("UIStroke", t)
+tstroke.Color = Color3.fromRGB(255,255,255)
+tstroke.Thickness = 0.5
+tstroke.Transparency = 0.25
 
 local content = Instance.new("Frame", f)
 content.Size = UDim2.new(1, 0, 1, -40)
@@ -49,8 +63,9 @@ madeby.Size = UDim2.new(0, 120, 0, 22)
 madeby.Position = UDim2.new(0, 8, 0, 448)
 madeby.BackgroundTransparency = 1
 madeby.Text = "made by srekcaH2"
+madeby.Font = Enum.Font.Sarpanch
 madeby.TextTransparency = 0.75
-madeby.TextSize = 9
+madeby.TextSize = 14
 madeby.TextColor3 = Color3.fromRGB(255,255,255)
 madeby.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -59,8 +74,9 @@ ctrlg.Size = UDim2.new(0, 120, 0, 22)
 ctrlg.Position = UDim2.new(0, 8, 0, 426)
 ctrlg.BackgroundTransparency = 1
 ctrlg.Text = "ctrl+G to hide/unhide"
+ctrlg.Font = Enum.Font.Sarpanch
 ctrlg.TextTransparency = 0.75
-ctrlg.TextSize = 9
+ctrlg.TextSize = 14
 ctrlg.TextColor3 = Color3.fromRGB(255,255,255)
 ctrlg.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -69,8 +85,9 @@ ctrlr.Size = UDim2.new(0, 120, 0, 22)
 ctrlr.Position = UDim2.new(0, 8, 0, 404)
 ctrlr.BackgroundTransparency = 1
 ctrlr.Text = "ctrl+R to reset"
+ctrlr.Font = Enum.Font.Sarpanch
 ctrlr.TextTransparency = 0.75
-ctrlr.TextSize = 9
+ctrlr.TextSize = 14
 ctrlr.TextColor3 = Color3.fromRGB(255,255,255)
 ctrlr.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -79,8 +96,9 @@ ctrle.Size = UDim2.new(0, 120, 0, 22)
 ctrle.Position = UDim2.new(0, 8, 0, 382)
 ctrle.BackgroundTransparency = 1
 ctrle.Text = "ctrl+E to apply"
+ctrle.Font = Enum.Font.Sarpanch
 ctrle.TextTransparency = 0.75
-ctrle.TextSize = 9
+ctrle.TextSize = 14
 ctrle.TextColor3 = Color3.fromRGB(255,255,255)
 ctrle.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -92,7 +110,7 @@ local function makeLbl(parent, txt, y)
 	l.Text = txt
 	l.TextColor3 = Color3.new(1,1,1)
 	l.TextXAlignment = Enum.TextXAlignment.Left
-	l.Font = Enum.Font.SourceSans
+	l.Font = Enum.Font.Sarpanch
 	l.TextSize = 16
 	return l
 end
@@ -101,10 +119,11 @@ local function makeBox(parent, y)
 	local b = Instance.new("TextBox", parent)
 	b.Size = UDim2.new(0, 118, 0, 22)
 	b.Position = UDim2.new(0, 134, 0, y)
-	b.PlaceholderText = "Value"
-	b.Font = Enum.Font.SourceSans
+	b.PlaceholderText = ""
+	b.Font = Enum.Font.Sarpanch
 	b.TextSize = 16
 	b.Text = ""
+	b.BackgroundTransparency = 0.05
 	b.TextColor3 = Color3.new(0,0,0)
 	b.BackgroundColor3 = Color3.fromRGB(240,240,240)
 	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
@@ -144,9 +163,9 @@ local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 118, 0, 28)
 apply.Position = UDim2.new(0, 8, 0, 156)
 apply.Text = "Apply"
-apply.Font = Enum.Font.SourceSansBold
+apply.Font = Enum.Font.Sarpanch
 apply.TextSize = 18
-apply.TextColor3 = Color3.fromRGB(30,30,30)
+apply.TextColor3 = Color3.fromRGB(0,0,0)
 apply.BackgroundColor3 = Color3.fromRGB(0,255,0)
 Instance.new("UICorner", apply).CornerRadius = UDim.new(0, 4)
 
@@ -158,15 +177,15 @@ gApply.Color = ColorSequence.new{
 gApply.Rotation = 90
 
 local sa = Instance.new("Sound", apply)
-sa.SoundId = "rbxassetid://1673280232"
+sa.SoundId = "rbxassetid://6324790483"
 
 local reset = Instance.new("TextButton", content)
 reset.Size = UDim2.new(0, 118, 0, 28)
 reset.Position = UDim2.new(0, 134, 0, 156)
 reset.Text = "Reset"
-reset.Font = Enum.Font.SourceSansBold
+reset.Font = Enum.Font.Sarpanch
 reset.TextSize = 18
-reset.TextColor3 = Color3.fromRGB(30,30,30)
+reset.TextColor3 = Color3.fromRGB(0,0,0)
 reset.BackgroundColor3 = Color3.fromRGB(255,0,0)
 Instance.new("UICorner", reset).CornerRadius = UDim.new(0, 4)
 
@@ -178,7 +197,7 @@ gReset.Color = ColorSequence.new{
 gReset.Rotation = 90
 
 local sr = Instance.new("Sound", reset)
-sr.SoundId = "rbxassetid://1673280232"
+sr.SoundId = "rbxassetid://6324790483"
 
 local hum
 
