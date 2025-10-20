@@ -24,7 +24,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.21"
+t.Text = "HHGUI v1.22"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
@@ -34,6 +34,15 @@ local content = Instance.new("Frame", f)
 content.Size = UDim2.new(1, 0, 1, -40)
 content.Position = UDim2.new(0, 0, 0, 36)
 content.BackgroundTransparency = 1
+content.Draggable = true
+
+local sf = Instance.new("ScrollingFrame", f)
+sf.Size = UDim2.new(1, 0, 1, -96)
+sf.Position = UDim2.new(0, 0, 0, 42)
+sf.BackgroundTransparency = 1
+sf.BorderSizePixel = 0
+sf.ScrollBarThickness = 3
+sf.Draggable = true
 
 local function makeLbl(parent, txt, y)
 	local l = Instance.new("TextLabel", parent)
@@ -50,49 +59,76 @@ end
 
 local function makeBox(parent, y)
 	local b = Instance.new("TextBox", parent)
-	b.Size = UDim2.new(0, 120, 0, 22)
-	b.Position = UDim2.new(0, 132, 0, y)
+	b.Size = UDim2.new(0, 118, 0, 22)
+	b.Position = UDim2.new(0, 134, 0, y)
 	b.PlaceholderText = "Value"
 	b.Font = Enum.Font.SourceSans
 	b.TextSize = 16
 	b.Text = ""
 	b.TextColor3 = Color3.new(0,0,0)
-	b.BackgroundColor3 = Color3.fromRGB(255,255,255)
+	b.BackgroundColor3 = Color3.fromRGB(240,240,240)
 	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
+
+	local g = Instance.new("UIGradient", b)
+	g.Color = ColorSequence.new{
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(220,220,220)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(255,255,255))
+	}
+	g.Rotation = 90
+
 	return b
 end
 
-makeLbl(content, "WalkSpeed:", 8)
-local ws = makeBox(content, 8)
-makeLbl(content, "JumpPower:", 36)
-local jp = makeBox(content, 36)
-makeLbl(content, "JumpHeight:", 64)
-local jh = makeBox(content, 64)
-makeLbl(content, "Health:", 92)
-local hp = makeBox(content, 92)
-makeLbl(content, "MaxHealth:", 120)
-local mh = makeBox(content, 120)
+makeLbl(sf, "WalkSpeed:", 2)
+local ws = makeBox(sf, 2)
+makeLbl(sf, "JumpPower:", 30)
+local jp = makeBox(sf, 30)
+makeLbl(sf, "JumpHeight:", 58)
+local jh = makeBox(sf, 58)
+makeLbl(sf, "Health:", 86)
+local hp = makeBox(sf, 86)
+makeLbl(sf, "MaxHealth:", 114)
+local mh = makeBox(sf, 114)
+makeLbl(sf, "HipHeight:", 142)
+local hh = makeBox(sf, 142)
+
 
 local apply = Instance.new("TextButton", content)
-apply.Size = UDim2.new(0, 120, 0, 28)
+apply.Size = UDim2.new(0, 118, 0, 28)
 apply.Position = UDim2.new(0, 8, 0, 156)
 apply.Text = "Apply"
 apply.Font = Enum.Font.SourceSansBold
 apply.TextSize = 18
+apply.TextColor3 = Color3.fromRGB(30,30,30)
 apply.BackgroundColor3 = Color3.fromRGB(0,255,0)
 Instance.new("UICorner", apply).CornerRadius = UDim.new(0, 4)
+
+local gApply = Instance.new("UIGradient", apply)
+gApply.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(0,255,100)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(0,180,0))
+}
+gApply.Rotation = 90
 
 local sa = Instance.new("Sound", apply)
 sa.SoundId = "rbxassetid://1673280232"
 
 local reset = Instance.new("TextButton", content)
-reset.Size = UDim2.new(0, 120, 0, 28)
-reset.Position = UDim2.new(0, 132, 0, 156)
+reset.Size = UDim2.new(0, 118, 0, 28)
+reset.Position = UDim2.new(0, 134, 0, 156)
 reset.Text = "Reset"
 reset.Font = Enum.Font.SourceSansBold
 reset.TextSize = 18
+reset.TextColor3 = Color3.fromRGB(30,30,30)
 reset.BackgroundColor3 = Color3.fromRGB(255,0,0)
 Instance.new("UICorner", reset).CornerRadius = UDim.new(0, 4)
+
+local gReset = Instance.new("UIGradient", reset)
+gReset.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(255,100,100)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(180,0,0))
+}
+gReset.Rotation = 90
 
 local sr = Instance.new("Sound", reset)
 sr.SoundId = "rbxassetid://1673280232"
@@ -100,13 +136,23 @@ sr.SoundId = "rbxassetid://1673280232"
 local hum
 local ow, oj, oh, ohp, omh
 
+local function formatNum(n)
+    local rounded = math.floor(n * 10 + 0.5) / 10
+    if rounded % 1 == 0 then
+        return tostring(rounded)
+    else
+        return tostring(rounded)
+    end
+end
+
 local function upd()
 	if not hum then return end
 	ws.PlaceholderText = tostring(hum.WalkSpeed)
 	jp.PlaceholderText = tostring(hum.JumpPower)
-	jh.PlaceholderText = tostring(hum.JumpHeight)
+	jh.PlaceholderText = formatNum(hum.JumpHeight)
 	hp.PlaceholderText = tostring(math.floor(hum.Health))
 	mh.PlaceholderText = tostring(math.floor(hum.MaxHealth))
+	hh.PlaceholderText = formatNum(hum.HipHeight)
 end
 
 local function applyVals()
@@ -116,18 +162,20 @@ local function applyVals()
 	local h = tonumber(jh.Text)
 	local he = tonumber(hp.Text)
 	local mhe = tonumber(mh.Text)
-	if w then hum.WalkSpeed = math.clamp(w, 1, 10000) end
-	if j then hum.JumpPower = math.clamp(j, 1, 10000) end
-	if h then hum.JumpHeight = math.clamp(h, 1, 10000) end
-	if mhe then hum.MaxHealth = math.clamp(mhe, 1, 10000) end
-	if he then hum.Health = math.clamp(he, 1, hum.MaxHealth) end
+	local hip = tonumber(hh.Text)
+	if w then hum.WalkSpeed = math.clamp(w, 0, 1000000) end
+	if j then hum.JumpPower = math.clamp(j, 0, 1000) end
+	if h then hum.JumpHeight = math.clamp(h, 0, 1000000) end
+	if mhe then hum.MaxHealth = math.clamp(mhe, 0, 1000000) end
+	if he then hum.Health = math.clamp(he, 0, hum.MaxHealth) end
+	if hip then hum.HipHeight = math.clamp(hip, 0, 2048) end
 	upd()
 end
 
 local function onChar(c)
 	hum = c:WaitForChild("Humanoid", 5)
 	if hum then 
-		ow, oj, oh, ohp, omh = hum.WalkSpeed, hum.JumpPower, hum.JumpHeight, hum.Health, hum.MaxHealth
+		ow, oj, oh, ohp, omh, ohh = hum.WalkSpeed, hum.JumpPower, hum.JumpHeight, hum.Health, hum.MaxHealth, hum.HipHeight
 		upd()
 	end
 end
@@ -139,6 +187,7 @@ local function resetVals()
 		hum.JumpHeight = oh
 		hum.MaxHealth = omh
 		hum.Health = ohp
+		hum.HipHeight = ohh
 		upd()
 	end
 end
