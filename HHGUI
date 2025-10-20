@@ -24,7 +24,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.24"
+t.Text = "HHGUI v1.24.1"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
@@ -43,6 +43,15 @@ sf.BackgroundTransparency = 1
 sf.BorderSizePixel = 0
 sf.ScrollBarThickness = 3
 sf.Draggable = true
+
+local madeby = Instance.new("TextLabel", sf)
+madeby.Size = UDim2.new(0, 120, 0, 22)
+madeby.Position = UDim2.new(0, 8, 0, 448)
+madeby.BackgroundTransparency = 1
+madeby.Text = "made by srekcaH2"
+madeby.TextTransparency = 0.75
+madeby.TextSize = 9
+madeby.TextColor3 = Color3.fromRGB(255,255,255)
 
 local function makeLbl(parent, txt, y)
 	local l = Instance.new("TextLabel", parent)
