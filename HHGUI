@@ -14,17 +14,17 @@ f.Active = true
 f.Draggable = true
 Instance.new("UICorner", f).CornerRadius = UDim.new(0, 8)
 
-local i = Instance.new("ImageLabel", f)
-i.Size = UDim2.new(1, -180, 0, 80)
-i.Position = UDim2.new(0, 200, 0, -35)
-i.BackgroundTransparency = 1
-i.Image = "rbxassetid://121523454509020"
+local imag = Instance.new("ImageLabel", f)
+imag.Size = UDim2.new(1, -180, 0, 80)
+imag.Position = UDim2.new(0, 200, 0, -35)
+imag.BackgroundTransparency = 1
+imag.Image = "rbxassetid://121523454509020"
 
 local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.24.2"
+t.Text = "HHGUI v1.24.3"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
@@ -56,13 +56,33 @@ madeby.TextXAlignment = Enum.TextXAlignment.Left
 
 local ctrlg = Instance.new("TextLabel", sf)
 ctrlg.Size = UDim2.new(0, 120, 0, 22)
-ctrlg.Position = UDim2.new(0, 8, 0, 420)
+ctrlg.Position = UDim2.new(0, 8, 0, 426)
 ctrlg.BackgroundTransparency = 1
 ctrlg.Text = "ctrl+G to hide/unhide"
 ctrlg.TextTransparency = 0.75
 ctrlg.TextSize = 9
 ctrlg.TextColor3 = Color3.fromRGB(255,255,255)
 ctrlg.TextXAlignment = Enum.TextXAlignment.Left
+
+local ctrlr = Instance.new("TextLabel", sf)
+ctrlr.Size = UDim2.new(0, 120, 0, 22)
+ctrlr.Position = UDim2.new(0, 8, 0, 404)
+ctrlr.BackgroundTransparency = 1
+ctrlr.Text = "ctrl+R to reset"
+ctrlr.TextTransparency = 0.75
+ctrlr.TextSize = 9
+ctrlr.TextColor3 = Color3.fromRGB(255,255,255)
+ctrlr.TextXAlignment = Enum.TextXAlignment.Left
+
+local ctrle = Instance.new("TextLabel", sf)
+ctrle.Size = UDim2.new(0, 120, 0, 22)
+ctrle.Position = UDim2.new(0, 8, 0, 382)
+ctrle.BackgroundTransparency = 1
+ctrle.Text = "ctrl+E to apply"
+ctrle.TextTransparency = 0.75
+ctrle.TextSize = 9
+ctrle.TextColor3 = Color3.fromRGB(255,255,255)
+ctrle.TextXAlignment = Enum.TextXAlignment.Left
 
 local function makeLbl(parent, txt, y)
 	local l = Instance.new("TextLabel", parent)
@@ -263,6 +283,7 @@ end
 
 if p.Character then onChar(p.Character) end
 p.CharacterAdded:Connect(onChar)
+
 apply.MouseButton1Click:Connect(function()
     sa:Play()
     applyVals()
@@ -274,9 +295,22 @@ reset.MouseButton1Click:Connect(function()
 end)
 
 local UIS = game:GetService("UserInputService")
-UIS.InputBegan:Connect(function(i, g)
-	if g then return end
-	if i.KeyCode == Enum.KeyCode.G and (UIS:IsKeyDown(Enum.KeyCode.LeftControl) or UIS:IsKeyDown(Enum.KeyCode.RightControl)) then
+
+UIS.InputBegan:Connect(function(i, processed)
+	if processed then return end
+
+	local ctrl = UIS:IsKeyDown(Enum.KeyCode.LeftControl) or UIS:IsKeyDown(Enum.KeyCode.RightControl)
+	if not ctrl then return end
+
+	if i.KeyCode == Enum.KeyCode.G then
 		f.Visible = not f.Visible
+
+	elseif i.KeyCode == Enum.KeyCode.E then
+		sa:Play()
+		applyVals()
+
+	elseif i.KeyCode == Enum.KeyCode.R then
+		sr:Play()
+		resetVals()
 	end
 end)
