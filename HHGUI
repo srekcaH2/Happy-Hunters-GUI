@@ -24,7 +24,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.23"
+t.Text = "HHGUI v1.24"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.SourceSansBold
@@ -141,7 +141,11 @@ local sr = Instance.new("Sound", reset)
 sr.SoundId = "rbxassetid://1673280232"
 
 local hum
-local ow, oj, oh, ohp, omh, ohh, omsa, ograv, ocMax, ocMin
+
+local ow, oj, oh, ohp, omh, ohh, omsa
+
+local def_ow, def_oj, def_oh, def_ohp, def_omh, def_ohh, def_omsa
+local ograv, ocMax, ocMin
 
 local function formatNum(n)
     local rounded = math.floor(n * 10 + 0.5) / 10
@@ -193,24 +197,46 @@ end
 
 local function onChar(c)
 	hum = c:WaitForChild("Humanoid", 5)
-	if hum then 
-		ow, oj, oh, ohp, omh, ohh, omsa, ograv, ocMax, ocMin = hum.WalkSpeed, hum.JumpPower, hum.JumpHeight, hum.Health, hum.MaxHealth, hum.HipHeight, hum.MaxSlopeAngle, workspace.Gravity, p.CameraMaxZoomDistance, p.CameraMinZoomDistance
+	if hum then
+		
+		ow, oj, oh, ohp, omh, ohh, omsa =
+			hum.WalkSpeed, hum.JumpPower, hum.JumpHeight,
+			hum.Health, hum.MaxHealth, hum.HipHeight, hum.MaxSlopeAngle
+
+		if def_ow == nil then
+			def_ow, def_oj, def_oh, def_ohp, def_omh, def_ohh, def_omsa =
+				ow, oj, oh, ohp, omh, ohh, omsa
+		end
+		if ograv == nil then ograv = workspace.Gravity end
+		if ocMax == nil then ocMax = p.CameraMaxZoomDistance end
+		if ocMin == nil then ocMin = p.CameraMinZoomDistance end
+
+		hum.Died:Connect(function()
+			task.wait(0.1)
+			workspace.Gravity = ograv
+			p.CameraMaxZoomDistance = ocMax
+			p.CameraMinZoomDistance = ocMin
+		end)
+
 		upd()
 	end
 end
 
 local function resetVals()
 	if hum then
-		hum.WalkSpeed = ow
-		hum.JumpPower = oj
-		hum.JumpHeight = oh
-		hum.MaxHealth = omh
-		hum.Health = ohp
-		hum.HipHeight = ohh
-		hum.MaxSlopeAngle = omsa
-		workspace.Gravity = ograv
-		p.CameraMaxZoomDistance = ocMax
-		p.CameraMinZoomDistance = ocMin
+
+		if def_ow then hum.WalkSpeed = def_ow end
+		if def_oj then hum.JumpPower = def_oj end
+		if def_oh then hum.JumpHeight = def_oh end
+		if def_omh then hum.MaxHealth = def_omh end
+		if def_ohp then hum.Health = def_ohp end
+		if def_ohh then hum.HipHeight = def_ohh end
+		if def_omsa then hum.MaxSlopeAngle = def_omsa end
+
+		if ograv then workspace.Gravity = ograv end
+		if ocMax then p.CameraMaxZoomDistance = ocMax end
+		if ocMin then p.CameraMinZoomDistance = ocMin end
+		
 		upd()
 	end
 end
