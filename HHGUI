@@ -33,7 +33,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.32"
+t.Text = "HHGUI v1.33"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.Sarpanch
@@ -162,6 +162,8 @@ makeLbl(sf, "Sit:", 282)
 local sit = makeBox(sf, 282)
 makeLbl(sf, "PlatformStand:", 310)
 local platformstand = makeBox(sf, 310)
+makeLbl(sf, "Teleport:", 338)
+local teleportBox = makeBox(sf, 338)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 118, 0, 28)
@@ -275,6 +277,30 @@ local function applyVals()
 			hum.PlatformStand = true
 		elseif ps == "false" or ps == "0" then
 			hum.PlatformStand = false
+		end
+	end
+
+	local tpTarget = teleportBox.Text
+	if tpTarget and tpTarget:match("%S") then
+		local root = hum.RootPart
+		if root then
+
+			local player = game.Players:FindFirstChild(tpTarget)
+			if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+				root.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0,3,0)
+			else
+
+				local x, y, z = tpTarget:match("(-?%d+%.?%d*),%s*(-?%d+%.?%d*),%s*(-?%d+%.?%d*)")
+				if x and y and z then
+					root.CFrame = CFrame.new(tonumber(x), tonumber(y), tonumber(z))
+				else
+
+					local part = workspace:FindFirstChild(tpTarget, true)
+					if part and part:IsA("BasePart") then
+						root.CFrame = part.CFrame + Vector3.new(0,3,0)
+					end
+				end
+			end
 		end
 	end
 
