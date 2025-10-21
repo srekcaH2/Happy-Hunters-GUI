@@ -33,7 +33,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.33"
+t.Text = "HHGUI v1.34"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.Sarpanch
@@ -285,9 +285,19 @@ local function applyVals()
 		local root = hum.RootPart
 		if root then
 
-			local player = game.Players:FindFirstChild(tpTarget)
-			if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-				root.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0,3,0)
+			local tpTargetLower = tpTarget:lower()
+			local targetPlayer
+
+			for _, plr in pairs(game.Players:GetPlayers()) do
+				if plr.Name:lower():find(tpTargetLower) or plr.DisplayName:lower():find(tpTargetLower) then
+					targetPlayer = plr
+					break
+				end
+			end
+
+			if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+				root.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0,3,0)
+
 			else
 
 				local x, y, z = tpTarget:match("(-?%d+%.?%d*),%s*(-?%d+%.?%d*),%s*(-?%d+%.?%d*)")
