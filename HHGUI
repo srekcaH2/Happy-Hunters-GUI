@@ -33,7 +33,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.24.5"
+t.Text = "HHGUI v1.31"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.Sarpanch
@@ -199,7 +199,7 @@ gReset.Rotation = 90
 
 local sr = Instance.new("Sound", reset)
 sr.SoundId = "rbxassetid://2390695935"
-sr.Volume = 0.8
+sr.Volume = 1
 
 local hum
 
