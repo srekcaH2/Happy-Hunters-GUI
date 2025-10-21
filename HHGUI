@@ -33,7 +33,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.34"
+t.Text = "HHGUI v1.35"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.Sarpanch
@@ -305,9 +305,18 @@ local function applyVals()
 					root.CFrame = CFrame.new(tonumber(x), tonumber(y), tonumber(z))
 				else
 
-					local part = workspace:FindFirstChild(tpTarget, true)
-					if part and part:IsA("BasePart") then
-						root.CFrame = part.CFrame + Vector3.new(0,3,0)
+					local tpTargetLower = tpTarget:lower()
+					local targetPart
+
+					for _, obj in pairs(workspace:GetDescendants()) do
+						if obj:IsA("BasePart") and obj.Name:lower():find(tpTargetLower) then
+							targetPart = obj
+							break
+						end
+					end
+
+					if targetPart then
+						root.CFrame = targetPart.CFrame + Vector3.new(0,3,0)
 					end
 				end
 			end
