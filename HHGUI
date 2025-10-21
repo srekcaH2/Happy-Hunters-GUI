@@ -33,7 +33,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.31"
+t.Text = "HHGUI v1.32"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.Sarpanch
@@ -158,6 +158,10 @@ makeLbl(sf, "CameraMaxZoom:", 226)
 local camMax = makeBox(sf, 226)
 makeLbl(sf, "CameraMinZoom:", 254)
 local camMin = makeBox(sf, 254)
+makeLbl(sf, "Sit:", 282)
+local sit = makeBox(sf, 282)
+makeLbl(sf, "PlatformStand:", 310)
+local platformstand = makeBox(sf, 310)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 118, 0, 28)
@@ -229,6 +233,8 @@ local function upd()
 	grav.PlaceholderText = formatNum(workspace.Gravity)
 	camMax.PlaceholderText = formatNum(p.CameraMaxZoomDistance)
 	camMin.PlaceholderText = formatNum(p.CameraMinZoomDistance)
+	sit.PlaceholderText = tostring(hum.Sit)
+	platformstand.PlaceholderText = tostring(hum.PlatformStand)
 end
 
 local function applyVals()
@@ -253,13 +259,33 @@ local function applyVals()
 	if g then workspace.Gravity = math.clamp(g, 0, 1000000) end
 	if cMax then p.CameraMaxZoomDistance = math.clamp(cMax, 0, 1000000) end
 	if cMin then p.CameraMinZoomDistance = math.clamp(cMin, 0, 1000000) end
+
+	if sit.Text and sit.Text:match("%S") then
+		local s = sit.Text:lower():gsub("%s+", "")
+		if s == "true" or s == "1" then
+			hum.Sit = true
+		elseif s == "false" or s == "0" then
+			hum.Sit = false
+		end
+	end
+
+	if platformstand.Text and platformstand.Text:match("%S") then
+		local ps = platformstand.Text:lower():gsub("%s+", "")
+		if ps == "true" or ps == "1" then
+			hum.PlatformStand = true
+		elseif ps == "false" or ps == "0" then
+			hum.PlatformStand = false
+		end
+	end
+
 	upd()
 end
 
 local function onChar(c)
+	if hum then hum = nil end
 	hum = c:WaitForChild("Humanoid", 5)
+
 	if hum then
-		
 		ow, oj, oh, ohp, omh, ohh, omsa =
 			hum.WalkSpeed, hum.JumpPower, hum.JumpHeight,
 			hum.Health, hum.MaxHealth, hum.HipHeight, hum.MaxSlopeAngle
@@ -277,6 +303,41 @@ local function onChar(c)
 			workspace.Gravity = ograv
 			p.CameraMaxZoomDistance = ocMax
 			p.CameraMinZoomDistance = ocMin
+		end)
+
+		local trackedProps = {
+			WalkSpeed = ws,
+			JumpPower = jp,
+			JumpHeight = jh,
+			Health = hp,
+			MaxHealth = mh,
+			HipHeight = hh,
+			MaxSlopeAngle = msa,
+			Sit = sit,
+			PlatformStand = platformstand
+		}
+
+		for prop, box in pairs(trackedProps) do
+			hum:GetPropertyChangedSignal(prop):Connect(function()
+				local val = hum[prop]
+				if typeof(val) == "number" then
+					box.PlaceholderText = formatNum(val)
+				else
+					box.PlaceholderText = tostring(val)
+				end
+			end)
+		end
+
+		workspace:GetPropertyChangedSignal("Gravity"):Connect(function()
+			grav.PlaceholderText = formatNum(workspace.Gravity)
+		end)
+
+		p:GetPropertyChangedSignal("CameraMaxZoomDistance"):Connect(function()
+			camMax.PlaceholderText = formatNum(p.CameraMaxZoomDistance)
+		end)
+
+		p:GetPropertyChangedSignal("CameraMinZoomDistance"):Connect(function()
+			camMin.PlaceholderText = formatNum(p.CameraMinZoomDistance)
 		end)
 
 		upd()
@@ -297,7 +358,11 @@ local function resetVals()
 		if ograv then workspace.Gravity = ograv end
 		if ocMax then p.CameraMaxZoomDistance = ocMax end
 		if ocMin then p.CameraMinZoomDistance = ocMin end
-		
+
+		if hum.Sit then hum.Sit = false end
+
+		if hum.PlatformStand then hum.PlatformStand = false end
+
 		upd()
 	end
 end
