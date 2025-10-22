@@ -1,5 +1,7 @@
 local p = game:GetService("Players").LocalPlayer
 local pg = p:WaitForChild("PlayerGui")
+local RunService = game:GetService("RunService")
+local UIS = game:GetService("UserInputService")
 
 local s = Instance.new("ScreenGui")
 s.Name = "HHGUI"
@@ -33,7 +35,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.35"
+t.Text = "HHGUI v1.36"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.Sarpanch
@@ -51,6 +53,7 @@ content.BackgroundTransparency = 1
 content.Draggable = true
 
 local sf = Instance.new("ScrollingFrame", f)
+sf.CanvasSize = UDim2.new(0, 0, 3, 0)
 sf.Size = UDim2.new(1, 0, 1, -96)
 sf.Position = UDim2.new(0, 0, 0, 42)
 sf.BackgroundTransparency = 1
@@ -60,7 +63,7 @@ sf.Draggable = true
 
 local madeby = Instance.new("TextLabel", sf)
 madeby.Size = UDim2.new(0, 120, 0, 22)
-madeby.Position = UDim2.new(0, 8, 0, 448)
+madeby.Position = UDim2.new(0, 8, 0, 682)
 madeby.BackgroundTransparency = 1
 madeby.Text = "made by srekcaH2"
 madeby.Font = Enum.Font.Sarpanch
@@ -71,7 +74,7 @@ madeby.TextXAlignment = Enum.TextXAlignment.Left
 
 local ctrlg = Instance.new("TextLabel", sf)
 ctrlg.Size = UDim2.new(0, 120, 0, 22)
-ctrlg.Position = UDim2.new(0, 8, 0, 426)
+ctrlg.Position = UDim2.new(0, 8, 0, 660)
 ctrlg.BackgroundTransparency = 1
 ctrlg.Text = "ctrl+G to hide/unhide"
 ctrlg.Font = Enum.Font.Sarpanch
@@ -82,7 +85,7 @@ ctrlg.TextXAlignment = Enum.TextXAlignment.Left
 
 local ctrlr = Instance.new("TextLabel", sf)
 ctrlr.Size = UDim2.new(0, 120, 0, 22)
-ctrlr.Position = UDim2.new(0, 8, 0, 404)
+ctrlr.Position = UDim2.new(0, 8, 0, 638)
 ctrlr.BackgroundTransparency = 1
 ctrlr.Text = "ctrl+R to reset"
 ctrlr.Font = Enum.Font.Sarpanch
@@ -93,7 +96,7 @@ ctrlr.TextXAlignment = Enum.TextXAlignment.Left
 
 local ctrle = Instance.new("TextLabel", sf)
 ctrle.Size = UDim2.new(0, 120, 0, 22)
-ctrle.Position = UDim2.new(0, 8, 0, 382)
+ctrle.Position = UDim2.new(0, 8, 0, 616)
 ctrle.BackgroundTransparency = 1
 ctrle.Text = "ctrl+E to apply"
 ctrle.Font = Enum.Font.Sarpanch
@@ -164,6 +167,8 @@ makeLbl(sf, "PlatformStand:", 310)
 local platformstand = makeBox(sf, 310)
 makeLbl(sf, "Teleport:", 338)
 local teleportBox = makeBox(sf, 338)
+makeLbl(sf, "AutoTeleport:", 366)
+local autoteleportBox = makeBox(sf, 366)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 118, 0, 28)
@@ -239,6 +244,8 @@ local function upd()
 	platformstand.PlaceholderText = tostring(hum.PlatformStand)
 end
 
+local autotpActive = false
+
 local function applyVals()
 	if not hum then return end
 	local w = tonumber(ws.Text)
@@ -295,8 +302,8 @@ local function applyVals()
 				end
 			end
 
-			if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-				root.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0,3,0)
+			if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
+				root.CFrame = targetPlayer.Character.Head.CFrame + Vector3.new(0,3,0)
 
 			else
 
@@ -317,6 +324,66 @@ local function applyVals()
 
 					if targetPart then
 						root.CFrame = targetPart.CFrame + Vector3.new(0,3,0)
+					end
+				end
+			end
+		end
+	end
+
+	local autotpTarget = autoteleportBox.Text
+	if autotpTarget and autotpTarget:match("%S") then
+		local root = hum.RootPart
+		if root then
+
+			local autotpTargetLower = autotpTarget:lower()
+			local autotptargetPlayer
+
+			for _, plr in pairs(game.Players:GetPlayers()) do
+				if plr.Name:lower():find(autotpTargetLower) or plr.DisplayName:lower():find(autotpTargetLower) then
+					autotptargetPlayer = plr
+					break
+				end
+			end
+
+			if autotptargetPlayer and autotptargetPlayer.Character and autotptargetPlayer.Character:FindFirstChild("Head") then
+
+				autotpActive = true
+				while autotpActive do
+					wait(0.1)
+					root.CFrame = autotptargetPlayer.Character.Head.CFrame + Vector3.new(0,3,0)
+				end
+
+			else
+
+				local x, y, z = autotpTarget:match("(-?%d+%.?%d*),%s*(-?%d+%.?%d*),%s*(-?%d+%.?%d*)")
+				if x and y and z then
+
+					autotpActive = true
+					while autotpActive do
+						wait(0.1)
+						root.CFrame = CFrame.new(tonumber(x), tonumber(y), tonumber(z))
+					end
+
+				else
+
+					local autotpTargetLower = autotpTarget:lower()
+					local autotptargetPart
+
+					for _, obj in pairs(workspace:GetDescendants()) do
+						if obj:IsA("BasePart") and obj.Name:lower():find(autotpTargetLower) then
+							autotptargetPart = obj
+							break
+						end
+					end
+
+					if autotptargetPart then
+
+						autotpActive = true
+						while autotpActive do
+							wait(0.1)
+							root.CFrame = autotptargetPart.CFrame + Vector3.new(0,3,0)
+						end
+
 					end
 				end
 			end
@@ -386,7 +453,16 @@ local function onChar(c)
 		end)
 
 		upd()
-	end
+
+        RunService.Heartbeat:Connect(function()
+			if hum and hum.RootPart then
+				local pos = hum.RootPart.Position
+				local coordStr = formatNum(pos.X)..", "..formatNum(pos.Y)..", "..formatNum(pos.Z)
+				teleportBox.PlaceholderText = coordStr
+				autoteleportBox.PlaceholderText = coordStr
+			end
+		end)
+    end
 end
 
 local function resetVals()
@@ -408,6 +484,8 @@ local function resetVals()
 
 		if hum.PlatformStand then hum.PlatformStand = false end
 
+		autotpActive = false
+
 		upd()
 	end
 end
@@ -424,8 +502,6 @@ reset.MouseButton1Click:Connect(function()
     sr:Play()
     resetVals()
 end)
-
-local UIS = game:GetService("UserInputService")
 
 UIS.InputBegan:Connect(function(i, processed)
 	if processed then return end
