@@ -9,7 +9,7 @@ s.ResetOnSpawn = false
 s.Parent = pg
 
 local f = Instance.new("Frame", s)
-f.Size = UDim2.new(0, 260, 0, 234)
+f.Size = UDim2.new(0, 260, 0, 240)
 f.Position = UDim2.new(0, 20, 0, 60)
 f.BackgroundTransparency = 0.05
 f.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
@@ -35,7 +35,7 @@ local t = Instance.new("TextLabel", f)
 t.Size = UDim2.new(1, -65, 0, 28)
 t.Position = UDim2.new(0, 8, 0, 8)
 t.BackgroundTransparency = 1
-t.Text = "HHGUI v1.36"
+t.Text = "HHGUI v1.37"
 t.TextColor3 = Color3.new(1,1,1)
 t.TextXAlignment = Enum.TextXAlignment.Left
 t.Font = Enum.Font.Sarpanch
@@ -63,7 +63,7 @@ sf.Draggable = true
 
 local madeby = Instance.new("TextLabel", sf)
 madeby.Size = UDim2.new(0, 120, 0, 22)
-madeby.Position = UDim2.new(0, 8, 0, 682)
+madeby.Position = UDim2.new(0, 8, 0, 700)
 madeby.BackgroundTransparency = 1
 madeby.Text = "made by srekcaH2"
 madeby.Font = Enum.Font.Sarpanch
@@ -74,7 +74,7 @@ madeby.TextXAlignment = Enum.TextXAlignment.Left
 
 local ctrlg = Instance.new("TextLabel", sf)
 ctrlg.Size = UDim2.new(0, 120, 0, 22)
-ctrlg.Position = UDim2.new(0, 8, 0, 660)
+ctrlg.Position = UDim2.new(0, 8, 0, 678)
 ctrlg.BackgroundTransparency = 1
 ctrlg.Text = "ctrl+G to hide/unhide"
 ctrlg.Font = Enum.Font.Sarpanch
@@ -85,7 +85,7 @@ ctrlg.TextXAlignment = Enum.TextXAlignment.Left
 
 local ctrlr = Instance.new("TextLabel", sf)
 ctrlr.Size = UDim2.new(0, 120, 0, 22)
-ctrlr.Position = UDim2.new(0, 8, 0, 638)
+ctrlr.Position = UDim2.new(0, 8, 0, 656)
 ctrlr.BackgroundTransparency = 1
 ctrlr.Text = "ctrl+R to reset"
 ctrlr.Font = Enum.Font.Sarpanch
@@ -96,7 +96,7 @@ ctrlr.TextXAlignment = Enum.TextXAlignment.Left
 
 local ctrle = Instance.new("TextLabel", sf)
 ctrle.Size = UDim2.new(0, 120, 0, 22)
-ctrle.Position = UDim2.new(0, 8, 0, 616)
+ctrle.Position = UDim2.new(0, 8, 0, 632)
 ctrle.BackgroundTransparency = 1
 ctrle.Text = "ctrl+E to apply"
 ctrle.Font = Enum.Font.Sarpanch
@@ -172,7 +172,7 @@ local autoteleportBox = makeBox(sf, 366)
 
 local apply = Instance.new("TextButton", content)
 apply.Size = UDim2.new(0, 118, 0, 28)
-apply.Position = UDim2.new(0, 8, 0, 156)
+apply.Position = UDim2.new(0, 8, 0, 162)
 apply.Text = "Apply"
 apply.Font = Enum.Font.Sarpanch
 apply.TextSize = 18
@@ -193,7 +193,7 @@ sa.Volume = 0.5
 
 local reset = Instance.new("TextButton", content)
 reset.Size = UDim2.new(0, 118, 0, 28)
-reset.Position = UDim2.new(0, 134, 0, 156)
+reset.Position = UDim2.new(0, 134, 0, 162)
 reset.Text = "Reset"
 reset.Font = Enum.Font.Sarpanch
 reset.TextSize = 18
